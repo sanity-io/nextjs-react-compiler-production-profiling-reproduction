@@ -1,3 +1,4 @@
+import Profiler from './Profiler'
 import './global.css'
 
 export default function RootLayout({ children }) {
@@ -5,7 +6,9 @@ export default function RootLayout({ children }) {
     <html>
       <head />
       <body>
-        <div id="root">{children}</div>
+        <div id="root">
+          <Profiler>{children}</Profiler>
+        </div>
       </body>
     </html>
   )
