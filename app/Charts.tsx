@@ -11,15 +11,18 @@ import {
 const colors = ['#fff489', '#fa57c1', '#b166cc', '#7572ff', '#69a6f9']
 
 export default function Charts(props: {
+  pending: boolean
   data: {
     x: number
     y: number
   }[][]
 }) {
-  const { data } = props
+  const { pending, data } = props
 
   return (
-    <div>
+    <div
+      style={{ transition: 'opacity 300ms ease', opacity: pending ? 0.6 : 1 }}
+    >
       <div style={{ display: 'flex' }}>
         <VictoryChart
           theme={VictoryTheme.material}

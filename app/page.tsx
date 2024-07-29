@@ -3,7 +3,13 @@
 // Based on https://github.com/facebook/react/blob/a6b5ed01ae98a18507cb92d8e932a8ca321602e6/fixtures/concurrent/time-slicing/src/index.js
 
 import { debounce, random, range } from 'lodash'
-import { startTransition, useEffect, useRef, useState } from 'react'
+import {
+  startTransition,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from 'react'
 
 import Charts from './Charts'
 import Clock from './Clock'
@@ -74,6 +80,7 @@ export default function App() {
     )
   }
 
+  const [pending, setPending] = useTransition()
   const handleChange = (e) => {
     const value = e.target.value
     switch (strategy) {
@@ -84,8 +91,7 @@ export default function App() {
         debouncedHandleChange(value)
         break
       case 'async':
-        // TODO: useTransition hook instead.
-        startTransition(() => {
+        setPending(() => {
           setValue(value)
         })
         break
@@ -122,7 +128,7 @@ export default function App() {
         onChange={handleChange}
       />
       <div className="demo" onClick={handleChartClick}>
-        {showDemo && <Charts data={data} />}
+        {showDemo && <Charts data={data} pending={pending} />}
         <div style={{ display: showClock ? 'block' : 'none' }}>
           <Clock />
         </div>
