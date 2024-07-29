@@ -6,14 +6,15 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "canary",
-    "react": "19.0.0-rc-76002254-20240724",
-    "react-dom": "19.0.0-rc-76002254-20240724"
+    "next": "15.0.0-canary.88",
+    "react": "19.0.0-rc-14a4699f-20240725",
+    "react-dom": "19.0.0-rc-14a4699f-20240725"
   },
   "devDependencies": {
     "@types/node": "20.12.12",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "typescript": "5.3.3"
-  }
+  },
+  "packageManager": "pnpm@9.6.0"
 }

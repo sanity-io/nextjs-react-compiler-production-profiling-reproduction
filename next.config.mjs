@@ -3,6 +3,7 @@
  */
 const nextConfig = {
   reactStrictMode: true,
-};
+  reactProductionProfiling: true,
+}
 
-export default nextConfig;
+export default nextConfig
