@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 export default function Profiler({ children }: React.PropsWithChildren) {
   return (
     <React.Profiler

@@ -3,7 +3,11 @@ body {
   padding: 0px;
   margin: 0px;
   user-select: none;
-  font-family: Karla, Helvetica Neue, Helvetica, sans-serif;
+  font-family:
+    Karla,
+    Helvetica Neue,
+    Helvetica,
+    sans-serif;
   background: rgb(34, 34, 34);
   color: white;
   overflow: hidden;
@@ -58,7 +62,7 @@ label:nth-child(3).selected {
   color: #61dafb;
 }
 
-input[type="radio" i]:nth-child(1) {
+input[type='radio' i]:nth-child(1) {
   margin-left: 0;
 }
 
@@ -82,7 +86,6 @@ input[type="radio" i]:nth-child(1) {
 .input.async {
   outline-color: rgba(97, 218, 251, 0.1);
 }
-
 
 label {
   font-size: 20px;
@@ -110,14 +113,13 @@ label label {
 }
 
 .stutterer {
-  transform: scale(1.5);
+  transform: scale(0.2);
+  transform-origin: 0 0;
   height: 310px;
   width: 310px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -256px;
-  bottom: 0;
+  position: fixed;
+  left: 2px;
+  top: 2px;
   margin: auto;
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
   border-radius: 200px;

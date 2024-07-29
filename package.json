@@ -3,19 +3,31 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "lint": "next lint",
     "start": "next start"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.7",
     "babel-plugin-react-compiler": "0.0.0-experimental-334f00b-20240725",
+    "lodash": "^4.17.21",
     "next": "15.0.0-canary.88",
     "react": "19.0.0-rc-14a4699f-20240725",
-    "react-dom": "19.0.0-rc-14a4699f-20240725"
+    "react-dom": "19.0.0-rc-14a4699f-20240725",
+    "victory": "^0.25.6"
   },
   "devDependencies": {
     "@types/node": "20.12.12",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.0-canary.88",
+    "eslint-plugin-react-compiler": "0.0.0-experimental-9ed098e-20240725",
+    "prettier": "^3.3.3",
     "typescript": "5.3.3"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   },
   "packageManager": "pnpm@9.6.0"
 }
