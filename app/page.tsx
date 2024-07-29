@@ -3,6 +3,7 @@
 // Based on https://github.com/facebook/react/blob/a6b5ed01ae98a18507cb92d8e932a8ca321602e6/fixtures/concurrent/time-slicing/src/index.js
 
 import { debounce, random, range } from 'lodash'
+import dynamic from 'next/dynamic'
 import {
   startTransition,
   useEffect,
@@ -11,8 +12,9 @@ import {
   useTransition,
 } from 'react'
 
-import Charts from './Charts'
 import Clock from './Clock'
+
+const Charts = dynamic(() => import('./Charts'), { ssr: false })
 
 export default function App() {
   const [value, setValue] = useState('')
