@@ -2,15 +2,9 @@
 
 // Based on https://github.com/facebook/react/blob/a6b5ed01ae98a18507cb92d8e932a8ca321602e6/fixtures/concurrent/time-slicing/src/index.js
 
-import { debounce, random, range } from 'lodash'
+import { random, range } from 'lodash'
 import dynamic from 'next/dynamic'
-import {
-  startTransition,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-} from 'react'
+import { useDeferredValue, useEffect, useState } from 'react'
 
 import Clock from './Clock'
 
@@ -21,7 +15,6 @@ export default function App() {
   const [strategy, setStrategy] = useState<'sync' | 'debounced' | 'async'>(
     'sync',
   )
-  const [showDemo, setShowDemo] = useState(true)
   const [showClock, setShowClock] = useState(true)
 
   useEffect(() => {
@@ -34,40 +27,6 @@ export default function App() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [])
-
-  const ignoreClickRef = useRef(false)
-  const handleChartClick = (e: React.MouseEvent) => {
-    if (showDemo) {
-      if (e.shiftKey) {
-        setShowDemo(false)
-      }
-      return
-    }
-    if (strategy !== 'async') {
-      setShowDemo((prev) => !prev)
-      return
-    }
-    if (ignoreClickRef.current) {
-      return
-    }
-    ignoreClickRef.current = true
-
-    startTransition(() => {
-      setShowDemo(true)
-    })
-  }
-
-  useEffect(() => {
-    if (showDemo && ignoreClickRef.current) {
-      ignoreClickRef.current = false
-    }
-  }, [showDemo])
-
-  const debouncedHandleChange = debounce((value) => {
-    if (strategy === 'debounced') {
-      setValue(value)
-    }
-  }, 1000)
 
   const renderOption = (option, label) => {
     return (
@@ -82,33 +41,10 @@ export default function App() {
     )
   }
 
-  const [pending, setPending] = useTransition()
-  const handleChange = (e) => {
-    const value = e.target.value
-    switch (strategy) {
-      case 'sync':
-        setValue(value)
-        break
-      case 'debounced':
-        debouncedHandleChange(value)
-        break
-      case 'async':
-        setPending(() => {
-          setValue(value)
-        })
-        break
-      default:
-        break
-    }
-  }
-
   // Random data for the chart
   const multiplier = value.length !== 0 ? value.length : 1
-  // const complexity =
-  //   (parseInt(window.location.search.slice(1), 10) / 100) * 25 || 25
-  const complexity = 25
   const data = range(5).map((t) =>
-    range(complexity * multiplier).map((j) => {
+    range(25 * multiplier).map((j) => {
       return {
         x: j,
         y: (t + 1) * random(0, 255),
@@ -126,15 +62,49 @@ export default function App() {
       <input
         className={`input ${strategy}`}
         placeholder="longer input → more components and DOM nodes"
-        defaultValue={value}
-        onChange={handleChange}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
-      <div className="demo" onClick={handleChartClick}>
-        {showDemo && <Charts data={data} pending={pending} />}
+      <div className="demo">
+        {strategy === 'async' ? (
+          <ConcurrentCharts data={data} />
+        ) : strategy === 'debounced' ? (
+          <DebouncedCharts data={data} />
+        ) : (
+          <Charts data={data} pending={false} />
+        )}
         <div style={{ display: showClock ? 'block' : 'none' }}>
           <Clock />
         </div>
       </div>
     </div>
   )
+}
+
+function ConcurrentCharts(props: {
+  data: {
+    x: number
+    y: number
+  }[][]
+}) {
+  const data = useDeferredValue(props.data)
+  const pending = props.data !== data
+  return <Charts data={data} pending={pending} />
+}
+
+function DebouncedCharts(props: {
+  data: {
+    x: number
+    y: number
+  }[][]
+}) {
+  const [data, setData] = useState(props.data)
+  const pending = props.data !== data
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setData(props.data), 1000)
+    return () => clearTimeout(timeout)
+  }, [props.data])
+
+  return <Charts data={data} pending={pending} />
 }
