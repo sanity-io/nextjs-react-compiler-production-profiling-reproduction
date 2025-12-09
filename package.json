@@ -10,7 +10,7 @@
     "@types/lodash": "^4.17.7",
     "babel-plugin-react-compiler": "0.0.0-experimental-334f00b-20240725",
     "lodash": "^4.17.21",
-    "next": "15.0.0-canary.88",
+    "next": "15.5.7",
     "react": "19.0.0-rc-14a4699f-20240725",
     "react-dom": "19.0.0-rc-14a4699f-20240725",
     "victory": "^0.26.1"
